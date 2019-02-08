@@ -1,0 +1,43 @@
+{
+  "name": "next",
+  "version": "1.0.0",
+  "description": "File template and cli helper for files using NXCD architecture",
+  "main": "dist/index.js",
+  "bin": {
+    "next": "dist/index.js",
+    "nxcd": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:clean": "rm -rf dist && npm run build",
+    "build:watch": "tsc -w",
+    "lint": "tslint --project tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nxcd/next.git"
+  },
+  "contributors": [
+    "Lucas Santos <lucas.santos@nxcd.com.br>"
+  ],
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/nxcd/next/issues"
+  },
+  "homepage": "https://github.com/nxcd/next#readme",
+  "files": [
+    "dist/**/*"
+  ],
+  "devDependencies": {
+    "@types/node": "^10.12.21",
+    "standard": "^12.0.1",
+    "tslint": "^5.12.1",
+    "typescript": "^3.3.1"
+  },
+  "dependencies": {
+    "caporal": "^1.1.0",
+    "chalk": "^2.4.2",
+    "ejs": "^2.6.1",
+    "ora": "^3.0.0"
+  }
+}
