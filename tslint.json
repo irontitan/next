@@ -2,5 +2,8 @@
   "extends": "tslint-config-standard",
   "rules": {
     "deprecation": false
+  },
+  "linterOptions": {
+    "exclude": ["templates/**/*"]
   }
 }
