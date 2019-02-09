@@ -1,0 +1,10 @@
+import { <%= entityNames.pascalCase %>Error } from './<%= entityNames.pascalCase %>Error'
+import { format } from 'util'
+
+const MESSAGE = '<%= entityNames.sentenceCase %> with ID "%s" was not found'
+
+export class <%= entityNames.pascalCase %>NotFoundError extends <%= entityNames.pascalCase %>Error {
+  constructor (id: string) {
+    super(format(MESSAGE, id))
+  }
+}

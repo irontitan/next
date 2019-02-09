@@ -1,0 +1,6 @@
+export * from './domain.error'
+<%_ if (domains.length > 0) { _%>
+    <%_ for (const domain of domains) { _%>
+export * from './<%= domain %>/entity'
+    <%_ } %>
+<%_ } %>

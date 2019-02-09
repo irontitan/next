@@ -1,0 +1,24 @@
+import { ObjectId } from 'mongodb'
+import { <%= entityNames.pascalCase %> } from '../domain'
+import { <%= entityNames.pascalCase %>Repository } from '../data/repositories/<%= entityNames.pascalCase %>Repository'
+
+
+export class <%= entityNames.pascalCase %>Service {
+  private readonly repository: <%= entityNames.pascalCase %>Repository
+
+  constructor (repository: <%= entityNames.pascalCase %>Repository) {
+    this.repository = repository
+  }
+
+  async create (): Promise<<%= entityNames.pascalCase %>> {
+    // Put your database entity creation logic here
+  }
+
+  async find (id: ObjectId | string): Promise<<%= entityNames.pascalCase %>> {
+    const <%= entityNames.camelCase %> = await this.repository.findById(id)
+
+    if (!<%= entityNames.camelCase %>) throw new <%= entityNames.pascalCase %>NotFoundError(id as string)
+
+    return <%= entityNames.camelCase %>
+  }
+}

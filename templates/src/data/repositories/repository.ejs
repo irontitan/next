@@ -1,0 +1,9 @@
+import { Db } from 'mongodb'
+import { MongodbEventRepository } from '@nxcd/paradox'
+import { <%= entityNames.pascalCase %> } from '../../domain/<%= entityNames.kebabCase %>/entity'
+
+export class <%= entityNames.pascalCase %>Repository extends MongodbEventRepository<<%= entityNames.pascalCase %>> {
+  constructor (connection: Db) {
+    super(connection.collection(<%= entityNames.pascalCase %>.collection), <%= entityNames.pascalCase %>)
+  }
+}
