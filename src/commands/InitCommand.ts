@@ -10,7 +10,7 @@ import { Command } from '../structures/Command'
 import { LogProvider } from '../lib/LogProvider'
 import { paths } from '../../dist/lib/directories'
 import { ITemplateData } from '../structures/ITemplateData'
-import { existsSync, mkdirSync, writeFileSync, copyFileSync, readdirSync, readFileSync } from 'fs'
+import { existsSync, mkdirSync, writeFileSync, readdirSync } from 'fs'
 
 export class InitCommand extends Command {
   private baseFolder = process.cwd()
