@@ -1,0 +1,17 @@
+export const paths = [
+  'src',
+  'tests',
+  'src/data',
+  'src/data/structures',
+  'src/data/repositories',
+  'src/data/connections',
+  'src/domain',
+  'src/domain/structures',
+  'src/lib',
+  'src/lib/structures',
+  'src/presentation',
+  'src/presentation/structures',
+  'src/presentation/routes',
+  'src/services',
+  'src/services/structures',
+]
