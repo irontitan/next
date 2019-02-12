@@ -20,6 +20,9 @@ export interface ITemplateData {
         sentenceCase: string
         camelCase: string
       }
-    }
+    },
+  },
+  domainInfo: {
+    routes: string[]
   }
 }
