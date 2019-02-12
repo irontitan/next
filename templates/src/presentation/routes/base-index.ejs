@@ -1,0 +1,5 @@
+export default {
+<% if (domainInfo.routes.length > 0) { -%>
+<%= '  ' + domainInfo.routes.join(': {}, \n  ') + ': {}' %>
+<% } -%>
+}
