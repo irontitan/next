@@ -41,7 +41,7 @@ pnpm i -g @nxcd/next
 
 Some options can be used through all commands (except `help`):
 
-- `--folder <path>`: By default, **next** runs on `process.cwd()`. If this option is provided, then the current working directory will be changed to `path` and all operations will be performed under this location
+- `--dir <path>`: By default, **next** runs on `process.cwd()`. If this option is provided, then the current working directory will be changed to `path` and all operations will be performed under this location
 
 ## Usage
 
@@ -69,7 +69,11 @@ $ next init <project-name>
 
 **Options**
 
-For now, this command accepts no options other than the [Global options](#global-options).
+This command accepts the [Global options](#global-options) and:
+
+- `--domains`: A comma-separated list of domain names to be created along with the project. The names can be cased whatever you want, but they **cannot** contain spaces
+
+**Example:** `$ next init my-project --domains production-order,tag,userReport,user,inventory_report,userbackups`
 
 ### `new`
 

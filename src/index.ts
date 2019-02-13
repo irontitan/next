@@ -26,7 +26,7 @@ caporal.version(metadata.version)
 caporal
   .command('init', 'Start a fresh new installation of your project')
   .argument('<projectName>', 'Project name')
-  .option('--folder <folderPath>', 'Folder to create structure')
+  .option('--dir <folderPath>', 'Folder to create structure')
   .option('--domains <domains>', 'A comma-separated list of domains to initialize (PascalCase, camelCase, kebab-case or snake_case)', caporal.LIST)
   .action((args, option, logger) => {
     const logProvider = new LogProvider(logger)
