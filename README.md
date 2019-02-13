@@ -1,6 +1,6 @@
 # Next
 
-> Fast creation of projects, files and domains our [NXCD Architecture](https://github.com/nxcd/developer-handbook/blob/master/Arquitetura/Arquitetura-de-C%C3%B3digo.md)
+> Fast creation of projects, files and domains in our [Architecture](https://github.com/nxcd/developer-handbook/blob/master/Arquitetura/Arquitetura-de-C%C3%B3digo.md)
 
 [![Build Status](https://travis-ci.org/nxcd/next.svg?branch=master)](https://travis-ci.org/nxcd/next)
 
