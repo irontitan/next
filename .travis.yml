@@ -6,7 +6,7 @@ node_js:
   - "node"
 
 before_script:
-  - npm i -g typescript pnpm
+  - npm i -g typescript pnpm --unsafe-perm
   - pnpm i
 
 script:
