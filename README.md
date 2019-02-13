@@ -61,7 +61,7 @@ $ next <command> [options]
 
 ### `init`
 
-Creates a new project from scratch in a new folder with `project-name` as name.
+Creates a new project from scratch in a new folder with `project-name` as name. This command will create the structure defined [here](https://github.com/nxcd/developer-handbook/blob/master/Arquitetura/Arquitetura-de-C%C3%B3digo.md#estrutura-de-pastas) (to be translated) so all the docs about it is right there.
 
 ```sh
 $ next init <project-name>
@@ -86,3 +86,4 @@ For now, this command accepts no options other than the [Global options](#global
 - [ ] Add `--type` option to the `init` command in order to create `libs` and other smaller projects
 - [ ] Update this doc
 - [ ] Improve code style and make things reusable
+- [ ] Translate architecture document to english
