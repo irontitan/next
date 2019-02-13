@@ -13,6 +13,7 @@ import { Command } from '../structures/Command'
 import { LogProvider } from '../lib/LogProvider'
 import { ITemplateData } from '../structures/ITemplateData'
 import { existsSync, mkdirSync, writeFileSync, readdirSync } from 'fs'
+import { installers } from '../lib/installers';
 
 export class InitCommand extends Command {
   private baseFolderPath: string = process.cwd()
@@ -167,33 +168,62 @@ export class InitCommand extends Command {
     this.spinnerInstance.succeed('Domain index created')
   }
 
+  private async gatherProjectData (args: any, options: any) {
+    this.templateData.project.name = args.projectName
+
+    const { description } = await ask({
+      type: 'input',
+      name: 'description',
+      message: 'Give me a short description of your project (optional)'
+    })
+    this.templateData.project.description = description
+
+    this.baseFolderPath = path.join(path.resolve(options.folder || this.baseFolderPath), this.templateData.project.name)
+    this.logger
+      .info()
+      .title(`Starting creation of project "${args.projectName}"`)
+      .warn()
+      .subText(chalk.italic(`Files will be created at "${this.baseFolderPath}`))
+  }
+
+  private async beginPipeline (_args: any, options: any) {
+    await this.gatherUserInfo()
+    await this.createFolders()
+    await this.moveRootFiles()
+    if (options.domains) await this.createDomains(options.domains)
+    await this.moveBaseFiles() // this has to come last otherwise routes will not be read
+  }
+
+  private async installPackages () {
+    const { installer } = await ask({
+      type: 'select',
+      name: 'installer',
+      message: 'What command would you like to use?',
+      choices: installers
+    })
+
+    this.spinnerInstance.info(`Beginning package installation using "${installer} install"...`)
+
+    const childProcess = execa(installer, ['install'], { cwd: this.baseFolderPath, stdout: 'pipe' })
+    childProcess.stdout.pipe(process.stdout)
+    return childProcess
+  }
+
   async execute (args: any, options: any) {
     try {
       this.spinnerInstance = ora('Initializing...')
-      this.templateData.project.name = args.projectName
-
-      const { description } = await ask({
-        type: 'input',
-        name: 'description',
-        message: 'Give me a short description of your project (optional)'
-      })
-      this.templateData.project.description = description
-
-      this.baseFolderPath = path.join(path.resolve(options.folder || this.baseFolderPath), this.templateData.project.name)
-      this.logger
-        .info()
-        .title(`Starting creation of project "${args.projectName}"`)
-        .warn()
-        .subText(chalk.italic(`Files will be created at "${this.baseFolderPath}`))
+      await this.gatherProjectData(args, options)
 
       this.spinnerInstance.start()
-      await this.gatherUserInfo()
-      await this.createFolders()
-      await this.moveRootFiles()
-      if (options.domains) await this.createDomains(options.domains)
-      await this.moveBaseFiles() // this has to come last otherwise routes will not be read
+      await this.beginPipeline(args, options)
 
-      this.spinnerInstance.succeed('Process ended. Project creation complete')
+      const { shouldInstall } = await ask({
+        type: 'confirm',
+        name: 'shouldInstall',
+        message: 'Do you want me to run the install command?'
+      })
+
+      if (shouldInstall) this.installPackages().then(() => this.spinnerInstance.succeed('Process ended. Project creation complete'))
     } catch (err) {
       if (err && err.message) return this.spinnerInstance.fail(err.message)
       return this.spinnerInstance.fail('Process ended: unknown error')
