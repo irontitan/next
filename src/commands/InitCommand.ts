@@ -7,6 +7,7 @@ import { sync as glob } from 'glob'
 import changeCase from 'change-case'
 import { prompt as ask } from 'enquirer'
 import { paths } from '../lib/directories'
+import { singular, plural } from 'pluralize'
 import { rootFiles } from '../lib/rootFiles'
 import { Command } from '../structures/Command'
 import { LogProvider } from '../lib/LogProvider'
@@ -152,7 +153,7 @@ export class InitCommand extends Command {
         writeFileSync(destinationPath, compiledTemplate)
       }))
 
-      this.spinnerInstance.info(`Created domain "${domain}"`)
+      this.spinnerInstance.succeed(`Created domain "${domain}"`)
     }
 
     await this.createDomainIndexFile()
@@ -161,7 +162,9 @@ export class InitCommand extends Command {
   async createDomainIndexFile () {
     this.spinnerInstance.start('Creating domain index...')
     const templateFile = path.join(this.templatesFolder, 'src', 'domain', 'index.ejs')
-
+    const compiledTemplate = await ejs.renderFile(templateFile, this.templateData, { async: true })
+    writeFileSync(path.join(this.baseFolderPath, 'src', 'domain', 'index.ts'), compiledTemplate)
+    this.spinnerInstance.succeed('Domain index created')
   }
 
   async execute (args: any, options: any) {

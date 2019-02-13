@@ -1,6 +1,6 @@
 export * from './domain.error'
 <%_ if (Object.keys(entities).length > 0) { _%>
     <%_ for (const domain of Object.keys(entities)) { _%>
-export * from './<%= entities[domain].pascalCase %>/entity'
+export * from './<%= entities[domain].entityNames.kebabCase %>/entity'
     <%_ } %>
 <%_ } %>
