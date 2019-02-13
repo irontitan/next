@@ -9,11 +9,11 @@ import { prompt as ask } from 'enquirer'
 import { paths } from '../lib/directories'
 import { singular, plural } from 'pluralize'
 import { rootFiles } from '../lib/rootFiles'
+import { installers } from '../lib/installers'
 import { Command } from '../structures/Command'
 import { LogProvider } from '../lib/LogProvider'
 import { ITemplateData } from '../structures/ITemplateData'
 import { existsSync, mkdirSync, writeFileSync, readdirSync } from 'fs'
-import { installers } from '../lib/installers';
 
 export class InitCommand extends Command {
   private baseFolderPath: string = process.cwd()
@@ -223,7 +223,9 @@ export class InitCommand extends Command {
         message: 'Do you want me to run the install command?'
       })
 
-      if (shouldInstall) this.installPackages().then(() => this.spinnerInstance.succeed('Process ended. Project creation complete'))
+      if (shouldInstall) return this.installPackages().then(() => this.spinnerInstance.succeed('Process ended. Project creation complete'))
+
+      return this.spinnerInstance.succeed('Process ended. Project creation complete').warn('run `npm install` to install all packages on your newly created project.')
     } catch (err) {
       if (err && err.message) return this.spinnerInstance.fail(err.message)
       return this.spinnerInstance.fail('Process ended: unknown error')
