@@ -1,6 +1,6 @@
 {
   "name": "@nxcd/next",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "File template and cli helper for files using NXCD architecture",
   "main": "dist/index.js",
   "bin": {
