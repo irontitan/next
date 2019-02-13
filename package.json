@@ -3,6 +3,7 @@
   "version": "1.2.0",
   "description": "File template and cli helper for files using NXCD architecture",
   "main": "dist/index.js",
+  "keywords": ["cli", "architecture", "boilerplate", "nxcd", "nextcode", "mvc", "event sourcing"],
   "bin": {
     "next": "dist/index.js",
     "nxcd": "dist/index.js"
