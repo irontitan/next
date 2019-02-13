@@ -19,6 +19,8 @@ export interface ITemplateData {
         snakeCase: string
         sentenceCase: string
         camelCase: string
+        singular: (word: string) => any
+        plural: (word: string) => any
       }
     },
   },

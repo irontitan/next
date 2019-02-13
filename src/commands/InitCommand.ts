@@ -77,7 +77,9 @@ export class InitCommand extends Command {
           kebabCase: changeCase.kebabCase(domain),
           snakeCase: changeCase.snakeCase(domain),
           sentenceCase: changeCase.sentenceCase(domain),
-          camelCase: changeCase.camelCase(domain)
+          camelCase: changeCase.camelCase(domain),
+          singular,
+          plural
         }
       }
     }
