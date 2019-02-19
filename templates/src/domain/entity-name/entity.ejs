@@ -4,7 +4,7 @@ import { EventEntity } from '@nxcd/paradox'
 export class <%= entityNames.pascalCase %> extends EventEntity<<%= entityNames.pascalCase %>> {
   public id: ObjectId | null = null
 
-  static readonly collection = '<%= entityNames.snakeCase %>'
+  static readonly collection = '<%= entityNames.plural(entityNames.snakeCase) %>'
 
   constructor () {
     super({
