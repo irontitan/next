@@ -142,7 +142,10 @@ export class InitCommand extends Command {
 
       const namesDictionary = this.templateData.entities[domain].entityNames
       const domainDirectoryPath = path.join(this.baseFolderPath, 'src', 'domain', namesDictionary.kebabCase, 'events')
-      if (!existsSync(domainDirectoryPath)) mkdirSync(domainDirectoryPath, { recursive: true }) // Create entity directory
+      const routeDirectoryPath = path.join(this.baseFolderPath, 'src', 'presentation', 'routes', namesDictionary.kebabCase)
+      if (!existsSync(routeDirectoryPath)) mkdirSync(routeDirectoryPath, { recursive: true })
+      if (!existsSync(domainDirectoryPath)) mkdirSync(domainDirectoryPath, { recursive: true }) // Create entity directory tree on domain directory
+
 
       // Compile all templates and generate all destination paths
       await Promise.all(domainTemplates.map(async (domainTemplatePath) => {
