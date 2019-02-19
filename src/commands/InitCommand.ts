@@ -231,5 +231,4 @@ export class InitCommand extends Command {
       return this.spinnerInstance.fail('Process ended: unknown error')
     }
   }
-
 }
