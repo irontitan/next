@@ -4,16 +4,17 @@ import path from 'path'
 import chalk from 'chalk'
 import execa from 'execa'
 import { sync as glob } from 'glob'
-import changeCase from 'change-case'
 import { prompt as ask } from 'enquirer'
 import { paths } from '../lib/directories'
-import { singular, plural } from 'pluralize'
 import { rootFiles } from '../lib/rootFiles'
 import { installers } from '../lib/installers'
 import { Command } from '../structures/Command'
 import { LogProvider } from '../lib/LogProvider'
 import { ITemplateData } from '../structures/ITemplateData'
-import { existsSync, mkdirSync, writeFileSync, readdirSync } from 'fs'
+import { existsSync, writeFileSync, readdirSync } from 'fs'
+import { getDictionary } from '../lib/domainNames'
+import { gatherUserInfo } from '../lib/gatherUserInfo'
+import { createDirectory } from '../lib/createDirectory'
 
 export class InitCommand extends Command {
   private baseFolderPath: string = process.cwd()
@@ -38,65 +39,16 @@ export class InitCommand extends Command {
     super(logger)
   }
 
-  private async gatherUserInfo () {
-    this.spinnerInstance.info('Gathering user info...')
-    let userName: string
-    let userEmail: string
-
-    try {
-      const { stdout: name } = await execa('git', ['config', '--get', 'user.name'], { stderr: 'ignore' })
-      const { stdout: email } = await execa('git', ['config', '--get', 'user.email'], { stderr: 'ignore' })
-
-      userName = name
-      userEmail = email
-    } catch (err) {
-      this.spinnerInstance.fail('I could not find your info :(')
-
-      const { name, email } = await ask([{
-        type: 'input',
-        name: 'name',
-        message: 'What is your name?'
-      }, {
-        type: 'input',
-        name: 'email',
-        message: 'What is your email?'
-      }])
-
-      userName = name
-      userEmail = email
-    }
-
-    this.templateData.project.author.name = userName
-    this.templateData.project.author.email = userEmail
-    if (userName && userEmail) this.spinnerInstance.succeed(`Gathered user information (you're "${userName}" and your email is "${userEmail}" ;D)`)
-  }
-
-  private setDomainNames (domains: string[]) {
-    for (const domain of domains) {
-      this.templateData.entities[changeCase.camelCase(domain)] = {
-        entityNames: {
-          pascalCase: changeCase.pascalCase(domain),
-          kebabCase: changeCase.kebabCase(domain),
-          snakeCase: changeCase.snakeCase(domain),
-          sentenceCase: changeCase.sentenceCase(domain),
-          camelCase: changeCase.camelCase(domain),
-          singular,
-          plural
-        }
-      }
-    }
-  }
-
   private async createFolders () {
     this.spinnerInstance.info('Creating project folders')
 
     // only executes on empty directories, if the directory does not exist then create
     if (existsSync(this.baseFolderPath) && readdirSync(this.baseFolderPath).length > 0) throw new Error(`Directory "${this.baseFolderPath}" already exists and it is not empty`)
-    if (!existsSync(this.baseFolderPath)) mkdirSync(this.baseFolderPath)
+    createDirectory(this.baseFolderPath)
 
     for (const directoryPath of paths) {
       const currentPath = path.join(this.baseFolderPath, directoryPath)
-      if (!existsSync(currentPath)) mkdirSync(currentPath)
+      createDirectory(currentPath)
 
       this.spinnerInstance.succeed(`Created folder ${directoryPath}`)
       if (directoryPath !== 'src') writeFileSync(path.join(currentPath, '.gitkeep'), null)
@@ -132,28 +84,31 @@ export class InitCommand extends Command {
 
   private async createDomains (domains: string[]) {
     this.spinnerInstance.info('Creating domains...')
-    this.setDomainNames(domains)
+    this.templateData.entities = getDictionary(domains)
 
-    this.templateData.domainInfo.routes = Object.keys(this.templateData.entities)
-    const domainTemplates = glob(path.join(this.templatesFolder, 'src', '**', '*.ejs')).filter((domainTemplatePath) => domainTemplatePath.indexOf('index.ejs') < 0)
+    this.templateData.domainInfo.routes = Object.keys(this.templateData.entities) // Generate route names array
+    const domainTemplates = glob(path.join(this.templatesFolder, 'src', '**', '*.ejs')) // Get all templates from src directory
+      .filter((domainTemplatePath) => domainTemplatePath.indexOf('index.ejs') < 0) // Filter those without an index (these should only be domains)
 
     for (const domain of Object.keys(this.templateData.entities)) {
       this.spinnerInstance.start(`Creating domain "${domain}"...`)
 
-      const namesDictionary = this.templateData.entities[domain].entityNames
-      const domainDirectoryPath = path.join(this.baseFolderPath, 'src', 'domain', namesDictionary.kebabCase, 'events')
-      const routeDirectoryPath = path.join(this.baseFolderPath, 'src', 'presentation', 'routes', namesDictionary.kebabCase)
-      if (!existsSync(routeDirectoryPath)) mkdirSync(routeDirectoryPath, { recursive: true })
-      if (!existsSync(domainDirectoryPath)) mkdirSync(domainDirectoryPath, { recursive: true }) // Create entity directory tree on domain directory
-
+      const { entityNames } = this.templateData.entities[domain] // Extract all entity names
+      createDirectory(path.join(this.baseFolderPath, 'src', 'presentation', 'routes', entityNames.kebabCase)) // create directories under /src/domain
+      createDirectory(path.join(this.baseFolderPath, 'src', 'domain', entityNames.kebabCase, 'events')) // create directories under /src/domain/entity-name/
 
       // Compile all templates and generate all destination paths
-      await Promise.all(domainTemplates.map(async (domainTemplatePath) => {
-        const destinationPath = domainTemplatePath.replace(/.*\/templates\/src/, `${this.baseFolderPath}/src`).replace('.ejs', '.ts').replace(/EntityName/, namesDictionary.pascalCase).replace(/entity-name/, namesDictionary.kebabCase)
+      await Promise.all(domainTemplates.map(async (domainTemplatePath) => { // Loop through all domain files (generics)
+        const destinationPath = domainTemplatePath // Create final path replacing entity names and file extensions
+          .replace(/.*\/templates\/src/, `${this.baseFolderPath}/src`)
+          .replace('.ejs', '.ts')
+          .replace(/EntityName/, entityNames.pascalCase)
+          .replace(/entity-name/, entityNames.kebabCase)
+
         const compiledTemplate = await ejs.renderFile(domainTemplatePath, this.templateData.entities[domain], { async: true })
         const destinationDir = path.dirname(destinationPath)
 
-        if (!existsSync(destinationDir)) mkdirSync(destinationDir, { recursive: true })
+        createDirectory(destinationDir)
         writeFileSync(destinationPath, compiledTemplate)
       }))
 
@@ -187,6 +142,13 @@ export class InitCommand extends Command {
       .title(`Starting creation of project "${args.projectName}"`)
       .warn()
       .subText(chalk.italic(`Files will be created at "${this.baseFolderPath}`))
+  }
+
+  async gatherUserInfo () {
+    this.spinnerInstance.info('Gathering user info...')
+    const userInfo = await gatherUserInfo()
+    this.templateData.project.author.name = userInfo.userName
+    this.templateData.project.author.email = userInfo.userEmail
   }
 
   private async beginPipeline (_args: any, options: any) {
