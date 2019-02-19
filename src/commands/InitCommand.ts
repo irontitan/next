@@ -141,8 +141,8 @@ export class InitCommand extends Command {
       this.spinnerInstance.start(`Creating domain "${domain}"...`)
 
       const namesDictionary = this.templateData.entities[domain].entityNames
-      const domainDirectoryPath = path.join(this.baseFolderPath, 'src', 'domain', namesDictionary.kebabCase)
-      if (!existsSync(domainDirectoryPath)) mkdirSync(domainDirectoryPath, { recursive: true })
+      const domainDirectoryPath = path.join(this.baseFolderPath, 'src', 'domain', namesDictionary.kebabCase, 'events')
+      if (!existsSync(domainDirectoryPath)) mkdirSync(domainDirectoryPath, { recursive: true }) // Create entity directory
 
       // Compile all templates and generate all destination paths
       await Promise.all(domainTemplates.map(async (domainTemplatePath) => {
