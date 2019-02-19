@@ -1,3 +1,5 @@
+import { ICaseDictionaryObject } from '../lib/domainNames'
+
 export interface ITemplateData {
   project: {
     name: string
@@ -11,19 +13,7 @@ export interface ITemplateData {
       url?: string
     }
   }
-  entities: {
-    [key: string]: {
-      entityNames: {
-        pascalCase: string
-        kebabCase: string
-        snakeCase: string
-        sentenceCase: string
-        camelCase: string
-        singular: (word: string) => any
-        plural: (word: string) => any
-      }
-    },
-  },
+  entities: ICaseDictionaryObject,
   domainInfo: {
     routes: string[]
   }
