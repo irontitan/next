@@ -1,9 +1,11 @@
 import { Db } from 'mongodb'
+import { injectable, inject } from 'tsyringe'
 import { MongodbEventRepository } from '@nxcd/paradox'
 import { <%= entityNames.pascalCase %> } from '../../domain/<%= entityNames.kebabCase %>/entity'
 
+@injectable()
 export class <%= entityNames.pascalCase %>Repository extends MongodbEventRepository<<%= entityNames.pascalCase %>> {
-  constructor (connection: Db) {
+  constructor (@inject('MongodbConnection') connection: Db) {
     super(connection.collection(<%= entityNames.pascalCase %>.collection), <%= entityNames.pascalCase %>)
   }
 }

@@ -1,13 +1,19 @@
 import env from 'sugar-env'
+import { IExpressoConfigOptions } from '@expresso/app'
+import IMongoParams from './data/structures/IMongoParams'
 
-export const config = {
-  cors: {
-    exposedHeaders: ['x-content-range']
-  },
+export interface IAppConfig extends IExpressoConfigOptions {
+  mongodb: IMongoParams
+}
+
+export const config: IAppConfig = {
   database: {
     mongodb: {
       uri: env.get('DATABASE_MONGODB_URI'),
-      dbName: env.get('DATABASE_MONGODB_DBNAME')
+      dbName: env.get('DATABASE_MONGODB_DBNAME'),
+      options: {
+        useNewUrlParser: true
+      }
     }
   }
 }
