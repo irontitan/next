@@ -119,10 +119,15 @@ export class InitCommand extends Command {
 
   async createDomainIndexFile () {
     this.spinnerInstance.start('Creating domain index...')
-    const templateFile = path.join(this.templatesFolder, 'src', 'domain', 'index.ejs')
-    const compiledTemplate = await ejs.renderFile(templateFile, this.templateData, { async: true })
-    writeFileSync(path.join(this.baseFolderPath, 'src', 'domain', 'index.ts'), compiledTemplate)
+    const domainIndexFile = path.join(this.templatesFolder, 'src', 'domain', 'index.ejs')
+    ejs.renderFile(domainIndexFile, this.templateData, { async: true }).then((compiledTemplate) => writeFileSync(path.join(this.baseFolderPath, 'src', 'domain', 'index.ts'), compiledTemplate))
+
     this.spinnerInstance.succeed('Domain index created')
+
+    this.spinnerInstance.start('Creating services index...')
+    const serviceIndexFile = path.join(this.templatesFolder, 'src', 'services', 'index.ejs')
+    ejs.renderFile(serviceIndexFile, this.templateData, { async: true }).then((compiledTemplate) => writeFileSync(path.join(this.baseFolderPath, 'src', 'services', 'index.ts'), compiledTemplate))
+    this.spinnerInstance.succeed('Services index created')
   }
 
   private async gatherProjectData (args: any, options: any) {
