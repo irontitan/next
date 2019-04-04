@@ -51,7 +51,6 @@ export class InitCommand extends Command {
       createDirectory(currentPath)
 
       this.spinnerInstance.succeed(`Created folder ${directoryPath}`)
-      if (directoryPath !== 'src') writeFileSync(path.join(currentPath, '.gitkeep'), null)
     }
 
     this.spinnerInstance.succeed('Directories were created')
