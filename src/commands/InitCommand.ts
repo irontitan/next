@@ -168,9 +168,9 @@ export class InitCommand extends Command {
 
     this.spinnerInstance.info(`Beginning package installation using "${installer} install"...`)
 
-    const childProcess = execa(installer, ['install'], { cwd: this.baseFolderPath, stdout: 'pipe' })
-    childProcess.stdout.pipe(process.stdout)
-    return childProcess
+    const installProcess = execa(installer, ['install'], { cwd: this.baseFolderPath, stdout: 'pipe' })
+    installProcess.stdout.pipe(process.stdout)
+    installProcess.stderr.pipe(process.stderr)
   }
 
   async execute (args: any, options: any) {
