@@ -93,7 +93,7 @@ export class InitCommand extends Command {
       this.spinnerInstance.start(`Creating domain "${domain}"...`)
 
       const { entityNames } = this.templateData.entities[domain] // Extract all entity names
-      createDirectory(path.join(this.baseFolderPath, 'src', 'presentation', 'routes', entityNames.kebabCase)) // create directories under /src/domain
+      createDirectory(path.join(this.baseFolderPath, 'src', 'presentation', 'routes', entityNames.kebabCase)) // create directories under /src/presentation/routes
       createDirectory(path.join(this.baseFolderPath, 'src', 'domain', entityNames.kebabCase, 'events')) // create directories under /src/domain/entity-name/
 
       // Compile all templates and generate all destination paths
