@@ -1,0 +1,17 @@
+import { injectable } from 'tsyringe'
+<%_ if (Object.keys(entities).length > 0) { _%>
+    <%_ for (const domain of Object.keys(entities)) { _%>
+import { <%= entities[domain].entityNames.pascalCase %>Service } from './<%= entities[domain].entityNames.pascalCase %>Service'
+    <%_ } _%>
+<%_ } _%>
+
+@injectable()
+export class Services {
+  constructor (
+<%_ if (Object.keys(entities).length > 0) { _%>
+    <%_ for (const domain of Object.keys(entities)) { _%>
+    public readonly <%= entities[domain].entityNames.camelCase %>: <%= entities[domain].entityNames.pascalCase %>Service,
+    <%_ } _%>
+<% } _%>
+  ) {}
+}

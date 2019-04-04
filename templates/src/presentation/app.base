@@ -1,14 +1,21 @@
+import 'reflect-metadata'
 import routes from './routes'
 import { Express } from 'express'
-import expresso from '@expresso/expresso'
+import expresso from '@expresso/app'
+import { container } from 'tsyringe'
+import { Services } from '../services'
+import { IAppConfig } from '../app-config'
 
-export const app = expresso(async (app: Express, config: any) => {
-  // Initialize all your connections, services, repositories and other stuff here
-  // Example:
-  // const connection = await mongodb.createConnection(config.database.mongodb)
-  // const userRepository = new UserRepository(connection)
-  // const userService = new UserService(userRepository)
+export const app = expresso(async (app: Express, config: IAppConfig, environment: string) => {
+  // Database connection already initiated
+  // Your services will be automatically injected
+  const mongodbConnection = await mongodb.createConnection(config.database.mongodb)
+
+  // Register connection to dependency injection container as it is not a class
+  container.register('MongodbConnection', { useValue: mongodbConnection })
+  // Resolve services with container
+  const services = container.resolve(Services)
 
   // Put your routes below
-  // Example: app.get('/users', routes.user.get.factory(userService))
+  // Example: app.get('/users', routes.user.get.factory(services.userService))
 })
