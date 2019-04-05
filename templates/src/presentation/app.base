@@ -5,8 +5,9 @@ import expresso from '@expresso/app'
 import { container } from 'tsyringe'
 import { Services } from '../services'
 import { IAppConfig } from '../app-config'
+import { IExpressoAppFactory } from '@expresso/server'
 
-export const app = expresso(async (app: Express, config: IAppConfig, environment: string) => {
+export const app: IExpressoAppFactory<IAppConfig> = expresso(async (app: Express, config: IAppConfig, environment: string) => {
   // Database connection already initiated
   // Your services will be automatically injected
   const mongodbConnection = await mongodb.createConnection(config.database.mongodb)

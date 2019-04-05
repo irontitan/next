@@ -1,5 +1,10 @@
 import { DomainError } from '../../domain.error'
+import { format } from 'util'
 
 export class <%= entityNames.pascalCase %>Error extends DomainError {
-  //
+  static MESSAGE = 'Your error message with %s param'
+
+  constructor (param: any) {
+    super(format(<%= entityNames.pascalCase %>Error.MESSAGE, param))
+  }
 }
