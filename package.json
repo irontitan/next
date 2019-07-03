@@ -1,20 +1,18 @@
 {
-  "name": "@nxcd/next",
+  "name": "@irontitan/next",
   "version": "2.0.1",
-  "description": "File template and cli helper for files using NXCD architecture",
+  "description": "File template and cli helper for files using irontitan architecture",
   "main": "dist/index.js",
   "keywords": [
     "cli",
     "architecture",
     "boilerplate",
-    "nxcd",
-    "nextcode",
+    "irontitan",
     "mvc",
     "event sourcing"
   ],
   "bin": {
-    "next": "dist/index.js",
-    "nxcd": "dist/index.js"
+    "next": "dist/index.js"
   },
   "scripts": {
     "build": "tsc",
@@ -24,16 +22,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nxcd/next.git"
+    "url": "git+https://github.com/irontitan/next.git"
   },
   "contributors": [
-    "Lucas Santos <lucas.santos@nxcd.com.br>"
+    "Lucas Santos <hello@lsantos.dev>"
   ],
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/nxcd/next/issues"
+    "url": "https://github.com/irontitan/next/issues"
   },
-  "homepage": "https://github.com/nxcd/next#readme",
+  "homepage": "https://github.com/irontitan/next#readme",
   "files": [
     "dist/**/*",
     "templates/**/*"

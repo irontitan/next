@@ -2,7 +2,7 @@
 
 > Fast creation of projects, files and domains in our [Architecture](https://github.com/nxcd/developer-handbook/blob/master/Arquitetura/Arquitetura-de-C%C3%B3digo.md)
 
-[![Build Status](https://travis-ci.org/nxcd/next.svg?branch=master)](https://travis-ci.org/nxcd/next)
+[![Build Status](https://travis-ci.org/irontitan/next.svg?branch=master)](https://travis-ci.org/irontitan/next)
 
 ## Summary
 
@@ -22,19 +22,19 @@
 Install it **globally** using your preferred package manager:
 
 ```
-npm i -g @nxcd/next
+npm i -g @irontitan/next
 ```
 
 Or
 
 ```
-yarn global add @nxcd/next
+yarn global add @irontitan/next
 ```
 
 Or
 
 ```
-pnpm i -g @nxcd/next
+pnpm i -g @irontitan/next
 ```
 
 ## Global options
@@ -45,13 +45,7 @@ Some options can be used through all commands (except `help`):
 
 ## Usage
 
-**Next** is aliased to two commands in your shell: *next* and *nxcd*. You can use both of them interchangeably.
-
-```sh
-$ nxcd <command> [options]
-```
-
-Or
+**Next** is aliased in your shell as *next*.
 
 ```sh
 $ next <command> [options]
@@ -61,7 +55,8 @@ $ next <command> [options]
 
 ### `init`
 
-Creates a new project from scratch in a new folder with `project-name` as name. This command will create the structure defined [here](https://github.com/nxcd/developer-handbook/blob/master/Arquitetura/Arquitetura-de-C%C3%B3digo.md#estrutura-de-pastas) (to be translated) so all the docs about it is right there.
+Creates a new project from scratch in a new folder with `project-name` as name. This command will create the structure defined
+[here](https://github.com/nxcd/developer-handbook/blob/master/Arquitetura/Arquitetura-de-C%C3%B3digo.md#estrutura-de-pastas) (to be translated) so all the docs about it is right there.
 
 ```sh
 $ next init <project-name>
