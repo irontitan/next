@@ -1,6 +1,6 @@
 {
   "name": "@irontitan/next",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "File template and cli helper for files using irontitan architecture",
   "main": "dist/index.js",
   "keywords": [
