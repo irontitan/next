@@ -1,11 +1,39 @@
 import { Db } from 'mongodb'
 import { injectable, inject } from 'tsyringe'
-import { MongodbEventRepository } from '@nxcd/paradox'
+import { MongodbRepository } from '@nindoo/mongodb-data-layer'
 import { <%= entityNames.pascalCase %> } from '../../domain/<%= entityNames.kebabCase %>/entity'
 
 @injectable()
-export class <%= entityNames.pascalCase %>Repository extends MongodbEventRepository<<%= entityNames.pascalCase %>> {
+export class <%= entityNames.pascalCase %>Repository extends MongodbRepository<<%= entityNames.pascalCase %>, <%= entityNames.pascalCase %>.Serialized> {
+  static collection = '<%= entityNames.plural(entityNames.kebabCase) %>'
+
   constructor (@inject('MongodbConnection') connection: Db) {
-    super(connection.collection(<%= entityNames.pascalCase %>.collection), <%= entityNames.pascalCase %>)
+    super(connection.collection(<%= entityNames.pascalCase %>.collection))
+  }
+
+  // Serializes your object into JSON representation
+  serialize (entity: <%= entityNames.pascalCase %>) {
+    // Example code
+    // return {
+    //   _id: entity.id,
+    //   name: entity.name,
+    //   document: entity.document,
+    //   createdAt: entity.createdAt,
+    //   deletedAt: entity.deletedAt,
+    //   updatedAt: entity.updatedAt
+    // }
+  }
+
+  // Desserializes JSON into objects
+  deserialize (data: <%= entityNames.pascalCase %>.Serialized) {
+    // Example code
+    // return {
+    //   id: data._id,
+    //   name: data.name,
+    //   document: data.document,
+    //   createdAt: data.createdAt,
+    //   deletedAt: data.deletedAt,
+    //   updatedAt: data.updatedAt
+    // }
   }
 }
