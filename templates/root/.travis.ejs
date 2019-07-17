@@ -1,0 +1,32 @@
+os:
+  - linux
+
+language: node_js
+
+jobs:
+  include:
+    - stage: "Build"
+      script:
+        - npm i -g typescript
+        - npm i
+        - npm run build:clean
+    - stage: "Test"
+      script: npm run coverage
+# Uncomment this if you want to deploy your package, make the necessary alterations
+#    - stage: "Deploy"
+#      deploy:
+#        provider: npm
+#        email: $NPM_EMAIL_ADDR
+#        api_key: $NPM_API_KEY
+#        skip_cleanup: true
+#        on:
+#          tags: true
+#          branch: master
+<% if (project.author.email) { %>
+notifications:
+  email:
+    recipients:
+    - <%= project.author.email %>
+    on_success: never
+    on_failure: always
+<% } %>
