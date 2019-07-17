@@ -4,7 +4,6 @@ export const paths = [
   'src/data',
   'src/data/structures',
   'src/data/repositories',
-  'src/data/connections',
   'src/domain',
   'src/lib',
   'src/presentation',
