@@ -1,0 +1,31 @@
+import { ObjectId } from 'mongodb'
+import { EventEntity } from '@irontitan/paradox'
+
+export class <%= entityNames.pascalCase %> extends EventEntity<<%= entityNames.pascalCase %>> {
+  public id: ObjectId | null = null
+
+  static readonly collection = '<%= entityNames.plural(entityNames.snakeCase) %>'
+
+  constructor () {
+    super({
+      // Here goes your known events array in the form of "eventName: eventCommitFunction"
+      // Example: [UserWasCreatedEvent.eventName]: UserWasCreatedEvent.commit
+    })
+  }
+
+  static create (): <%= entityNames.pascalCase %> {
+    // Put your entity creation logic here
+  }
+
+  get state () {
+    const currentState = this.reducer.reduce(new <%= entityNames.pascalCase %>(), [
+      ...this.persistedEvents,
+      ...this.pendingEvents
+    ])
+
+    return {
+      id: currentState.id
+      // Add more state properties here
+    }
+  }
+}

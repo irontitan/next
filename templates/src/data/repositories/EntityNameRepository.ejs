@@ -1,7 +1,6 @@
 import { Db } from 'mongodb'
 import { injectable, inject } from 'tsyringe'
 import { MongodbRepository, Serialized } from '@nindoo/mongodb-data-layer'
-import { I<%= entityNames.pascalCase %> } from '../../domain/<%= entityNames.kebabCase %>/structures/I<%= entityNames.pascalCase %>'
 import { <%= entityNames.pascalCase %> } from '../../domain/<%= entityNames.kebabCase %>/entity'
 
 @injectable()
@@ -13,7 +12,7 @@ export class <%= entityNames.pascalCase %>Repository extends MongodbRepository<<
   }
 
   // Serializes your object into JSON representation
-  serialize (entity: I<%= entityNames.pascalCase %>) {
+  serialize (entity: <%= entityNames.pascalCase %>) {
     // Example code
     // return {
     //   _id: entity.id,
