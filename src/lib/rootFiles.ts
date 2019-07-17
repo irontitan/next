@@ -26,5 +26,13 @@ export const rootFiles = [
   {
     name: 'tslint',
     finalExtension: '.json'
+  },
+  {
+    name: '.travis',
+    finalExtension: '.yml'
+  },
+  {
+    name: 'tests/dummy.test',
+    finalExtension: '.ts'
   }
 ]
