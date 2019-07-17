@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "clean": "rm -rf ./dist",
-    "test": "npm run build && mocha test",
+    "test": "npm run build && mocha --require ts-node/register --require source-map-support/register --recursive tests/**/*.test.ts",
+    "coverage": "nyc mocha --require ts-node/register --require source-map-support/register --recursive tests/**/*.test.ts"
     "lint": "tslint --project tsconfig.json",
     "build": "tsc",
     "build:debug": "npm run clean && npm run build -- --sourceMap",
@@ -39,7 +40,10 @@
     "tslint": "^5.11.0",
     "tslint-config-standard": "^8.0.1",
     "tslint-eslint-rules": "^5.4.0",
-    "typescript": "^3.1.1"
+    "typescript": "^3.1.1",
+    "chai": "^4.2.0",
+    "nyc": "^14.1.1",
+    "axiosist": "^0.6.2"
   },
   "dependencies": {
     "@expresso/app": "^1.0.3",
