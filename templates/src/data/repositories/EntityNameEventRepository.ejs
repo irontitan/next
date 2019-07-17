@@ -1,7 +1,7 @@
 import { Db } from 'mongodb'
 import { injectable, inject } from 'tsyringe'
 import { MongodbEventRepository } from '@irontitan/paradox'
-import { <%= entityNames.pascalCase %> } from '../../domain/<%= entityNames.kebabCase %>/entity'
+import { <%= entityNames.pascalCase %> } from '../../domain/<%= entityNames.kebabCase %>/eventEntity'
 
 @injectable()
 export class <%= entityNames.pascalCase %>Repository extends MongodbEventRepository<<%= entityNames.pascalCase %>> {

@@ -6,7 +6,6 @@ import { <%= entityNames.pascalCase %> } from '../../domain/<%= entityNames.keba
 
 @injectable()
 export class <%= entityNames.pascalCase %>Repository extends MongodbRepository<<%= entityNames.pascalCase %>, Serialized<I<%= entityNames.pascalCase %>>> {
-  static collection = '<%= entityNames.plural(entityNames.kebabCase) %>'
 
   constructor (@inject('MongodbConnection') connection: Db) {
     super(connection.collection(<%= entityNames.pascalCase %>.collection))
