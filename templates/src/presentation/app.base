@@ -6,11 +6,12 @@ import { container } from 'tsyringe'
 import { Services } from '../services'
 import { IAppConfig } from '../app-config'
 import { IExpressoAppFactory } from '@expresso/server'
+import { createConnection } from '@nindoo/mongodb-data-layer'
 
 export const app: IExpressoAppFactory<IAppConfig> = expresso(async (app: Express, config: IAppConfig, environment: string) => {
   // Database connection already initiated
   // Your services will be automatically injected
-  const mongodbConnection = await mongodb.createConnection(config.database.mongodb)
+  const mongodbConnection = await createConnection(config.database.mongodb)
 
   // Register connection to dependency injection container as it is not a class
   container.register('MongodbConnection', { useValue: mongodbConnection })
