@@ -4,7 +4,9 @@ import IMongoParams from './data/structures/IMongoParams'
 
 // Your configuration keys goes here
 export interface IAppConfig extends IExpressoConfigOptions {
-  mongodb: IMongoParams
+  database: {
+    mongodb: IMongoParams
+  }
 }
 
 // And your values here
