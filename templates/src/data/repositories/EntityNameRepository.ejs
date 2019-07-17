@@ -1,10 +1,11 @@
 import { Db } from 'mongodb'
 import { injectable, inject } from 'tsyringe'
 import { MongodbRepository, Serialized } from '@nindoo/mongodb-data-layer'
+import { I<%= entityNames.pascalCase %> } from '../../domain/<%= entityNames.kebabCase %>/structures/I<%= entityNames.pascalCase %>'
 import { <%= entityNames.pascalCase %> } from '../../domain/<%= entityNames.kebabCase %>/entity'
 
 @injectable()
-export class <%= entityNames.pascalCase %>Repository extends MongodbRepository<<%= entityNames.pascalCase %>, Serialized<<%= entityNames.pascalCase %>>> {
+export class <%= entityNames.pascalCase %>Repository extends MongodbRepository<<%= entityNames.pascalCase %>, Serialized<I<%= entityNames.pascalCase %>>> {
   static collection = '<%= entityNames.plural(entityNames.kebabCase) %>'
 
   constructor (@inject('MongodbConnection') connection: Db) {
@@ -25,7 +26,7 @@ export class <%= entityNames.pascalCase %>Repository extends MongodbRepository<<
   }
 
   // Desserializes JSON into objects
-  deserialize (data: Serialized<<%= entityNames.pascalCase %>>) {
+  deserialize (data: Serialized<I<%= entityNames.pascalCase %>>) {
     // Example code
     // return {
     //   id: data._id,
