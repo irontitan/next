@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rm -rf ./dist",
     "test": "npm run build && mocha --require ts-node/register --require source-map-support/register --recursive tests/**/*.test.ts",
-    "coverage": "nyc mocha --require ts-node/register --require source-map-support/register --recursive tests/**/*.test.ts"
+    "coverage": "nyc mocha --require ts-node/register --require source-map-support/register --recursive tests/**/*.test.ts",
     "lint": "tslint --project tsconfig.json",
     "build": "tsc",
     "build:debug": "npm run clean && npm run build -- --sourceMap",
