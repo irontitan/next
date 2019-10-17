@@ -33,8 +33,8 @@
   },
   "homepage": "https://github.com/irontitan/next#readme",
   "files": [
-    "dist/**/*",
-    "templates/**/*"
+    "dist",
+    "templates"
   ],
   "devDependencies": {
     "@types/ejs": "^2.6.1",
