@@ -11,6 +11,10 @@ jobs:
         - npm i
         - npm run build:clean
     - stage: "Deploy"
+      script:
+        - npm i -g typescript
+        - npm i
+        - npm run build:clean
       deploy:
         provider: npm
         email: $NPM_EMAIL_ADDR
